@@ -148,8 +148,14 @@
         [% END %]        
 		&nbsp&nbsp[% "PLUGIN_RAOPBRIDGE_ALACENCODE" | string %]
 		<select class="stdedit" name="alac_encode" id="alac_encode">
-		[% FOREACH entry IN YESNOBOX %] 
+		[% FOREACH entry IN YESNOBOX %]
 			<option [% IF entry.1 == alac_encode %]selected[% END %] value="[% entry.1 %]">[% entry.0 | string %]</option>
+		[% END %]
+		</select>
+		&nbsp&nbsp[% "PLUGIN_RAOPBRIDGE_RESUMEPREROLL" | string %]
+		<select class="stdedit" name="resume_preroll" id="resume_preroll">
+		[% FOREACH entry IN YESNOBOX %]
+			<option [% IF entry.1 == resume_preroll %]selected[% END %] value="[% entry.1 %]">[% entry.0 | string %]</option>
 		[% END %]
 		</select>
 		&nbsp&nbsp[% "PLUGIN_RAOPBRIDGE_IDLETIMEOUT" | string %]

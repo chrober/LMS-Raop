@@ -35,6 +35,7 @@
 #include "squeeze2raop.h"
 #include "config_raop.h"
 #include "metadata.h"
+#include "resume_timing.h"
 
 #include "mdnssd.h"
 #include "mdnssvc.h"
@@ -85,6 +86,7 @@ tMRConfig			glMRConfig = {
 							"-30:1, -15:50, 0:100",
 							true,			 // mute_on_pause
 							false,			 // alac_encode
+							false,			 // resume_preroll
 					};
 
 static uint8_t LMSVolumeMap[129] = {
@@ -328,7 +330,18 @@ bool sq_callback(void *caller, sq_action_t action, ...)
 			device->TrackRunning = true;
 			device->sqState = SQ_PLAY;
 			unsigned jiffies = va_arg(args, unsigned);
-			if (jiffies) 
+			if (device->Config.ResumePreroll) {
+				uint32_t latency = raopcl_latency(device->Raop);
+				uint32_t sample_rate = raopcl_sample_rate(device->Raop);
+				uint64_t start_at = raop_resume_preroll_start(raopcl_get_ntp(NULL), latency, sample_rate);
+
+				/* A receiver-specific opt-in for devices that reject live RTP
+				 * packets after the normal replayed pause buffer. */
+				raopcl_stop(device->Raop);
+				raopcl_start_at(device->Raop, start_at);
+				LOG_INFO("[%p]: resume with fresh RTP timeline (latency %u frames, %u Hz)",
+						 device, latency, sample_rate);
+			} else if (jiffies)
 				raopcl_start_at(device->Raop, TIME_MS2NTP(jiffies) -
 								TS2NTP(raopcl_latency(device->Raop), raopcl_sample_rate(device->Raop)));
 			strcpy(Req->Type, "CONNECT");

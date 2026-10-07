@@ -70,6 +70,7 @@ typedef struct sMRConfig
 	char		VolumeMapping[STR_LEN];
 	bool		MuteOnPause;
 	bool		AlacEncode;
+	bool		ResumePreroll;
 } tMRConfig;
 
 
