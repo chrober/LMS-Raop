@@ -68,7 +68,7 @@ SOURCES = slimproto.c buffer.c output.c output_pack.c output_raop.c main.c \
 		  utils.c metadata.c \
 		  cross_util.c cross_log.c cross_net.c cross_thread.c platform.c \
 		  http_fetcher.c http_error_codes.c \
-		  config_raop.c resume_timing.c squeeze2raop.c
+		  config_raop.c squeeze2raop.c
 
 SOURCES_LIBS = cross_ssl.c
 		
