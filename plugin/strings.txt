@@ -296,8 +296,8 @@ PLUGIN_RAOPBRIDGE_ENCRYPTION
 PLUGIN_RAOPBRIDGE_ALACENCODE
 	EN	Compress
 
-PLUGIN_RAOPBRIDGE_RESUMEPREROLL
-	EN	Fresh RTP timeline after resume (experimental)
+PLUGIN_RAOPBRIDGE_RESUMESEEKRECOVERY
+	EN	Rebuild stream at pause position after resume (compatibility workaround)
 	
 PLUGIN_RAOPBRIDGE_PLAYERLIST
 	EN	List of players currently in configuration file - Note that more devices might have been discovered
