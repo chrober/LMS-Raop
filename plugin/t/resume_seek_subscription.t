@@ -27,6 +27,12 @@ like(
 
 like(
 	$source,
+	qr/Time::HiRes::time\(\) \+ 0\.05, sub \{\s*return unless Slim::Player::Source::playmode\(\$client\) eq 'play';\s*my \(\$current_source\) = resumeSeekRecoverySource\(\$client\);\s*return unless \$resumeRecovery->same_source\(\$source, \$current_source\);.*?Slim::Player::Source::gototime\(\$client, \$position\)/s,
+	'Rechecks the playing source before the deferred rebuild can seek',
+);
+
+like(
+	$source,
 	qr/Time::HiRes::time\(\) \+ 1\.25.*?\$client->volume\(\$volume\)/s,
 	'Reapplies the configured player volume after the rebuilt stream starts',
 );

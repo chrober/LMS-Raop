@@ -115,6 +115,9 @@ sub resumeSeekRecovery {
 
 	$log->info(sprintf('Resume recovery for %s: rebuilding seekable source at %.3fs', $client->name, $position));
 	Slim::Utils::Timers::setTimer($resumeRecovery, Time::HiRes::time() + 0.05, sub {
+		return unless Slim::Player::Source::playmode($client) eq 'play';
+		my ($current_source) = resumeSeekRecoverySource($client);
+		return unless $resumeRecovery->same_source($source, $current_source);
 		my $before_rebuild = Slim::Player::Source::songTime($client);
 		if (defined $before_rebuild) {
 			$log->info($resumeRecovery->pre_rebuild_message($client->name, $before_rebuild, $position));
